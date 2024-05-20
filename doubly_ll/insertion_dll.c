@@ -1,124 +1,58 @@
+// Doubly linked list insertion at first,end,at specific position and create a empty node.
+
 #include <stdio.h>
 #include <stdlib.h>
-
-struct node
+struct Node
 {
-    struct node *prev;
+    struct Node *prev;
     int data;
-    struct node *next;
+    struct Node *next;
 } head;
-
-struct node *addToEmpty(struct node *head, int data)
+struct Node *addToEmpty(struct Node *head, int data)
 {
-    struct node *temp = malloc(sizeof(struct node));
+    struct Node *temp = malloc(sizeof(struct Node));
     temp->prev = NULL;
     temp->data = data;
     temp->next = NULL;
     head = temp;
     return head;
 }
-
-// struct node* addAtBeg(struct node* head, int data) {
-//     struct node* temp = malloc(sizeof(struct node));
-//     temp->prev = NULL;
-//     temp->data = data;
-//     temp->next = NULL;
-//     temp->next = head;
-//     temp->prev = temp;
-//     head = temp;
-//     return head;
-// }
-
-struct node *addAtBeg(struct node *head, int data)
+struct Node *addAtBeg(struct Node *head, int data)
 {
-    struct node *temp = malloc(sizeof(struct node));
+    struct Node *temp = malloc(sizeof(struct Node));
     temp->prev = NULL;
     temp->data = data;
+    temp->next = NULL;
     temp->next = head;
-
-    if (head != NULL)
-    {
-        head->prev = temp;
-    }
-
+    temp->prev = temp;
     head = temp;
     return head;
 }
-
-struct node *addAtEnd(struct node *head, int data)
+struct Node *addAtEnd(struct Node *head, int data)
 {
-    struct node *newNode, *ptr;
-    newNode = malloc(sizeof(struct node));
-    newNode->prev = NULL;
-    newNode->data = data;
-    newNode->next = NULL;
-    ptr = head;
-
-    while (ptr->next != NULL)
-        ptr = ptr->next;
-
-    ptr->next = newNode;
-    newNode->prev = ptr;
+    struct Node *temp, *tp;
+    temp = malloc(sizeof(struct Node));
+    temp->prev = NULL;
+    temp->data = data;
+    temp->next = NULL;
+    tp = head;
+    while (tp->next != NULL)
+        tp = tp->next;
+    tp->next = temp;
+    temp->prev = tp;
     return head;
 }
-// struct node* addAfterPos (struct node* head, int data, int position)
-// {
-//     struct node* newP=NULL;
-//     struct node* newNode=head;
-//     struct node* temp2=NULL;
-//     newP = addToEmpty(newP,data);
-//     while(position!=1)
-//     {
-//         temp=temp ->next;
-//         position --;
-//     }
-//     if(temp -> next==NULL)
-//     {
-//         temp ->next=newP;
-//         temp ->prev=temp;
-
-//     }
-//     else
-//     {
-//         temp2=temp ->next;
-//         temp ->next = newP;
-//         temp2 ->prev=newP;
-//         newP ->next=temp;
-//         newP ->prev=temp;
-//     }
-//     return head;
-// }
-struct node *addAfterPos(struct node *head, int data, int position)
+struct Node *addAfterPos(struct Node *head, int data, int position)
 {
-    struct node *newP = NULL;
-    struct node *temp = head;
-    struct node *temp2 = NULL;
-
-    // Create a new node and initialize it
+    struct Node *newP = NULL;
+    struct Node *temp = head;
+    struct Node *temp2 = NULL;
     newP = addToEmpty(newP, data);
-
-    // If the list is empty or position is 1, add at the beginning
-    if (head == NULL || position == 1)
-    {
-        head = addAtBeg(head, data);
-        return head;
-    }
-
-    // Traverse to the specified position
-    while (position != 1 && temp != NULL)
+    while (position != 1)
     {
         temp = temp->next;
         position--;
     }
-
-    // Check if the specified position is valid
-    if (temp == NULL)
-    {
-        printf("Invalid position.\n");
-        return head;
-    }
-
-    // Insert the new node at the specified position
     if (temp->next == NULL)
     {
         temp->next = newP;
@@ -132,24 +66,29 @@ struct node *addAfterPos(struct node *head, int data, int position)
         newP->next = temp2;
         newP->prev = temp;
     }
-
     return head;
 }
-
 int main()
 {
-    struct node *head = NULL;
-    struct node *ptr;
+    struct Node *head = NULL;
+    struct Node *ptr;
+    int position = 3;
+    head = addToEmpty(head, 20);
 
-    int position = 2;
-    head = addToEmpty(head, 80);
-    head = addAtBeg(head, 90);
+    /**
+     *
+     * This implementation is buggy
+     *
+     */
+    head = addToEmpty(head, 21);
+
+    head = addAtBeg(head, 45);
     head = addAtEnd(head, 150);
-    // head = addAfterPos(head, 49, position);
+    head = addAfterPos(head, 8, position);
     ptr = head;
     while (ptr != NULL)
     {
-        printf("%d \n", ptr->data);
+        printf("%d\n", ptr->data);
         ptr = ptr->next;
     }
     return 0;
