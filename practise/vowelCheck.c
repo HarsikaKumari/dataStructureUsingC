@@ -1,32 +1,32 @@
 #include <stdio.h>
+#include <ctype.h>
 
-int vowelCheck(char *word)
+int isVowel(char c)
 {
-    char vowel[] = {
-        'a',
-        'e',
-        'i',
-        'o',
-        'u',
-        'A',
-        'E',
-        'I',
-        'O',
-        'U',
-    };
-    int count = 0;
-    for (int i = 0; i < sizeof(word) / sizeof(word[0]); i++)
+    c = tolower(c);
+    if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
     {
-        for (int j = 0; j < sizeof(vowel) / sizeof(vowel[0]); j++)
-        {
-            printf("%s", word[i]);
-        }
+        return 1;
     }
+    return 0;
+}
+
+int countVowel(char str[])
+{
+    int count = 0;
+    int i = 0;
+   while(str[i] != '\0')
+   {
+    if (isVowel(str[i]))
+        count++;
+    i++;
+   }
+    return count;
 }
 
 int main()
 {
-    char word[] = "harsika";
-    vowelCheck(word);
-    return 0;
+    char str[100];
+    scanf("%s", &str);
+    printf("%d", countVowel(str));
 }
